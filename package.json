@@ -11,13 +11,15 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.0.0",
-    "@angular/common": "^19.0.0",
+    "@angular/common": "^19.0.3",
     "@angular/compiler": "^19.0.0",
     "@angular/core": "^19.0.0",
     "@angular/forms": "^19.0.0",
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+    "@fortawesome/fontawesome-free": "^6.7.1",
+    "bootstrap": "^5.3.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -34,5 +36,10 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.6.2"
-  }
+  },
+  "styles": [
+    "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap",
+    "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+    "src/styles.css"
+  ]
 }
