@@ -19,6 +19,8 @@ O frontend do MaxDoc é uma aplicação desenvolvida com **Angular** para o gere
    cd maxdoc-ng
    
 2. Instale as Dependências do Projeto
+Use node 18!
+
   ```bash
       npm install
 ```
