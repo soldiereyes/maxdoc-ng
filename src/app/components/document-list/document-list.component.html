@@ -38,6 +38,24 @@
           <button class="action-btn new-version-btn" (click)="createNewVersion(doc.id)" title="Criar Nova Versão">
             <mat-icon>autorenew</mat-icon>
           </button>
+
+          <button mat-icon-button [matMenuTriggerFor]="menuPhase" title="Alterar Fase">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <mat-menu #menuPhase="matMenu">
+            <button mat-menu-item (click)="updateDocumentPhase(doc, 'MINUTA')">
+              <mat-icon>edit</mat-icon>
+              <span>Minuta</span>
+            </button>
+            <button mat-menu-item (click)="updateDocumentPhase(doc, 'REVISAO')">
+              <mat-icon>check_circle</mat-icon>
+              <span>Revisão</span>
+            </button>
+            <button mat-menu-item (click)="updateDocumentPhase(doc, 'FINALIZADO')">
+              <mat-icon>done</mat-icon>
+              <span>Finalizado</span>
+            </button>
+            </mat-menu>
         </td>
       </tr>
       </tbody>

@@ -3,12 +3,14 @@ import {Document, DocumentService} from '../../services/document.service';
 import {CommonModule} from '@angular/common';
 import {DocumentDialogComponent} from '../document-dialog/document-dialog.component';
 import {MatIcon} from '@angular/material/icon';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {MatIconButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css'],
-  imports: [CommonModule, DocumentDialogComponent, MatIcon]
+  imports: [CommonModule, DocumentDialogComponent, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger, MatIconButton]
 })
 export class DocumentListComponent implements OnInit {
   documents: Document[] = [];
@@ -103,6 +105,24 @@ export class DocumentListComponent implements OnInit {
         error: (err) => {
           console.error('Erro ao criar nova versão:', err);
           this.errorMessage = 'Erro ao criar nova versão.';
+        },
+      });
+    }
+  }
+
+  updateDocumentPhase(doc: Document, newPhase: string): void {
+    if (confirm(`Deseja alterar a fase do documento para: ${newPhase}?`)) {
+      this.documentService.updatePhase(doc.id!, newPhase).subscribe({
+        next: (updatedDocument) => {
+          const index = this.documents.findIndex((d) => d.id === updatedDocument.id);
+          if (index !== -1) {
+            this.documents[index] = updatedDocument;
+          }
+          alert('Fase alterada com sucesso!');
+        },
+        error: (err) => {
+          console.error('Erro ao alterar a fase:', err);
+          this.errorMessage = 'Erro ao alterar a fase.';
         },
       });
     }
