@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Document, DocumentService} from '../../services/document.service';
 import {CommonModule} from '@angular/common';
 import {DocumentDialogComponent} from '../document-dialog/document-dialog.component';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css'],
-  imports: [CommonModule, DocumentDialogComponent]
+  imports: [CommonModule, DocumentDialogComponent, MatIcon]
 })
 export class DocumentListComponent implements OnInit {
   documents: Document[] = [];
@@ -16,7 +17,8 @@ export class DocumentListComponent implements OnInit {
   selectedDocument: Document | null = null;
 
 
-  constructor(private documentService: DocumentService) {}
+  constructor(private documentService: DocumentService) {
+  }
 
   ngOnInit(): void {
     this.loadDocuments();
@@ -46,19 +48,6 @@ export class DocumentListComponent implements OnInit {
         },
       });
     }
-  }
-
-  addDocument(document: Omit<Document, 'id'>): void {
-    this.documentService.addDocument(document).subscribe({
-      next: (newDocument) => {
-        this.documents.push(newDocument); // Adiciona o novo documento à lista
-        this.closeDialog();
-      },
-      error: (err) => {
-        console.error('Erro ao adicionar documento:', err);
-        this.errorMessage = 'Erro ao adicionar documento.';
-      },
-    });
   }
 
   openAddDialog(): void {
@@ -93,7 +82,7 @@ export class DocumentListComponent implements OnInit {
     } else {
       this.documentService.addDocument(document).subscribe({
         next: (newDocument) => {
-          this.documents.push(newDocument); // Adiciona o novo documento à lista
+          this.documents.push(newDocument);
           this.closeDialog();
         },
         error: (err) => {
@@ -103,4 +92,20 @@ export class DocumentListComponent implements OnInit {
       });
     }
   }
+
+  createNewVersion(id?: string): void {
+    if (confirm('Tem certeza de que deseja criar uma nova versão para este documento?')) {
+      this.documentService.createNewVersion(id).subscribe({
+        next: (newVersion) => {
+          this.documents.push(newVersion);
+          alert('Nova versão criada com sucesso!');
+        },
+        error: (err) => {
+          console.error('Erro ao criar nova versão:', err);
+          this.errorMessage = 'Erro ao criar nova versão.';
+        },
+      });
+    }
+  }
+
 }
