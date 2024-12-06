@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {Document, DocumentService} from '../../services/document.service';
 import {CommonModule} from '@angular/common';
+import {DocumentDialogComponent} from '../document-dialog/document-dialog.component';
 
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, DocumentDialogComponent]
 })
 export class DocumentListComponent implements OnInit {
   documents: Document[] = [];
   errorMessage: string | null = null;
+  isDialogOpen = false;
+  selectedDocument: Document | null = null;
+
 
   constructor(private documentService: DocumentService) {}
 
@@ -39,6 +43,62 @@ export class DocumentListComponent implements OnInit {
         error: (err) => {
           console.error('Erro ao excluir o documento:', err);
           this.errorMessage = 'Erro ao excluir o documento.';
+        },
+      });
+    }
+  }
+
+  addDocument(document: Omit<Document, 'id'>): void {
+    this.documentService.addDocument(document).subscribe({
+      next: (newDocument) => {
+        this.documents.push(newDocument); // Adiciona o novo documento à lista
+        this.closeDialog();
+      },
+      error: (err) => {
+        console.error('Erro ao adicionar documento:', err);
+        this.errorMessage = 'Erro ao adicionar documento.';
+      },
+    });
+  }
+
+  openAddDialog(): void {
+    this.isDialogOpen = true;
+    this.selectedDocument = null;
+  }
+
+  openEditDialog(document: Document): void {
+    this.isDialogOpen = true;
+    this.selectedDocument = document;
+  }
+
+  closeDialog(): void {
+    this.isDialogOpen = false;
+  }
+
+  saveDocument(document: Omit<Document, 'id'>): void {
+    if (this.selectedDocument) {
+      this.documentService.updateDocument(this.selectedDocument.id!, document).subscribe({
+        next: (updatedDocument) => {
+          const index = this.documents.findIndex((doc) => doc.id === updatedDocument.id);
+          if (index !== -1) {
+            this.documents[index] = updatedDocument;
+          }
+          this.closeDialog();
+        },
+        error: (err) => {
+          console.error('Erro ao atualizar documento:', err);
+          this.errorMessage = 'Erro ao atualizar documento.';
+        },
+      });
+    } else {
+      this.documentService.addDocument(document).subscribe({
+        next: (newDocument) => {
+          this.documents.push(newDocument); // Adiciona o novo documento à lista
+          this.closeDialog();
+        },
+        error: (err) => {
+          console.error('Erro ao adicionar documento:', err);
+          this.errorMessage = 'Erro ao adicionar documento.';
         },
       });
     }
