@@ -36,4 +36,9 @@ export class DocumentService {
     return this.http.put<Document>(`${this.apiUrl}/${id}`, document);
   }
 
+  createNewVersion(id?: string): Observable<Document> {
+    return this.http.post<Document>(`${this.apiUrl}/${id}/new-version`, {});
+  }
+
+
 }
