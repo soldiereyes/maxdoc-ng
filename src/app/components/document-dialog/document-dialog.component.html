@@ -1,0 +1,27 @@
+<div class="dialog-backdrop">
+  <div class="dialog">
+    <h2>Adicionar Documento</h2>
+    <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="title">Título:</label>
+        <input id="title" formControlName="title" type="text" />
+      </div>
+      <div>
+        <label for="description">Descrição:</label>
+        <textarea id="description" formControlName="description"></textarea>
+      </div>
+      <div>
+        <label for="sigla">Sigla:</label>
+        <input id="sigla" formControlName="sigla" type="text" maxlength="10" />
+      </div>
+      <div>
+        <label for="version">Versão:</label>
+        <input id="version" formControlName="version" type="number" />
+      </div>
+      <div class="dialog-actions">
+        <button type="button" (click)="onClose()">Cancelar</button>
+        <button type="submit">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
