@@ -16,7 +16,8 @@
       </div>
       <div>
         <label for="version">Versão:</label>
-        <input id="version" formControlName="version" type="number" />
+        <input id="version" formControlName="version" type="number" min="0"
+        />
       </div>
       <div class="dialog-actions">
         <button type="button" (click)="onClose()">Cancelar</button>
