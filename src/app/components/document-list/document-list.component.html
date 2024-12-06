@@ -31,7 +31,11 @@
         <td>{{ doc.phase }}</td>
         <td>
           <button class="action-btn delete-btn" (click)="deleteDocument(doc.id)" title="Excluir Documento">
-            &#128465; <!-- Unicode de lixeira -->
+            &#128465;
+          </button>
+
+          <button class="action-btn edit-btn" (click)="openEditDialog(doc)" title="Editar Documento">
+            &#9998;
           </button>
         </td>
       </tr>
@@ -39,8 +43,14 @@
     </table>
   </div>
 
-  <!-- Botão de inclusão -->
-  <button class="add-btn" title="Adicionar Documento">
+  <app-document-dialog
+    *ngIf="isDialogOpen"
+    [documentData]="selectedDocument"
+    (save)="saveDocument($event)"
+    (close)="closeDialog()"
+  ></app-document-dialog>
+
+  <button class="add-btn" (click)="openAddDialog()" title="Adicionar Documento">
     +
   </button>
 </div>
