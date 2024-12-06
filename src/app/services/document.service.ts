@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, Observable, throwError} from 'rxjs';
 import {environment} from '../../environments/environments';
 
 export interface Document {
@@ -40,5 +40,15 @@ export class DocumentService {
     return this.http.post<Document>(`${this.apiUrl}/${id}/new-version`, {});
   }
 
-
+  updatePhase(id: string, phase: string): Observable<Document> {
+    return this.http.patch<Document>(`${this.apiUrl}/${id}/phase?phase=${phase}`, {}).pipe(
+      catchError((error: HttpErrorResponse) => {
+        let errorMessage = 'Ocorreu um erro ao alterar a fase.';
+        if (error.status === 400 || error.status === 409) {
+          errorMessage = error.error.message || 'Transição de fase inválida.';
+        }
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
 }

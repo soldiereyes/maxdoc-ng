@@ -121,11 +121,10 @@ export class DocumentListComponent implements OnInit {
           alert('Fase alterada com sucesso!');
         },
         error: (err) => {
-          console.error('Erro ao alterar a fase:', err);
-          this.errorMessage = 'Erro ao alterar a fase.';
+          console.error('Erro ao alterar a fase:', err.message);
+          this.errorMessage = err.message;
         },
       });
     }
   }
-
 }
