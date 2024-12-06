@@ -1,15 +1,12 @@
 <div class="document-container">
-  <!-- Cabeçalho -->
   <header class="document-header">
     <h1>Gerenciamento de Documentos</h1>
   </header>
 
-  <!-- Mensagem de erro -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
-  <!-- Tabela de documentos -->
   <div class="document-table-wrapper">
     <table class="document-table">
       <thead>
@@ -19,7 +16,7 @@
         <th>Sigla</th>
         <th>Versão</th>
         <th>Fase</th>
-        <th>Ação</th>
+        <th>Ações</th>
       </tr>
       </thead>
       <tbody>
@@ -29,13 +26,17 @@
         <td>{{ doc.sigla }}</td>
         <td>{{ doc.version }}</td>
         <td>{{ doc.phase }}</td>
-        <td>
-          <button class="action-btn delete-btn" (click)="deleteDocument(doc.id)" title="Excluir Documento">
-            &#128465;
+        <td class="action-icons">
+          <button class="action-btn edit-btn" (click)="openEditDialog(doc)" title="Editar Documento">
+            <mat-icon>edit</mat-icon>
           </button>
 
-          <button class="action-btn edit-btn" (click)="openEditDialog(doc)" title="Editar Documento">
-            &#9998;
+          <button class="action-btn delete-btn" (click)="deleteDocument(doc.id)" title="Excluir Documento">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <button class="action-btn new-version-btn" (click)="createNewVersion(doc.id)" title="Criar Nova Versão">
+            <mat-icon>autorenew</mat-icon>
           </button>
         </td>
       </tr>
@@ -51,6 +52,6 @@
   ></app-document-dialog>
 
   <button class="add-btn" (click)="openAddDialog()" title="Adicionar Documento">
-    +
+    <mat-icon>add</mat-icon>
   </button>
 </div>
