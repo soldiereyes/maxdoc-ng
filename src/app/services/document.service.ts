@@ -31,4 +31,9 @@ export class DocumentService {
   addDocument(document: Omit<Document, 'id'>): Observable<Document> {
     return this.http.post<Document>(this.apiUrl, document);
   }
+
+  updateDocument(id: string, document: Omit<Document, 'id'>): Observable<Document> {
+    return this.http.put<Document>(`${this.apiUrl}/${id}`, document);
+  }
+
 }
